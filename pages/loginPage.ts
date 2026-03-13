@@ -29,7 +29,7 @@ export class LoginPage {
 
   async loginAndWaitForNavigation(username: string, password: string): Promise<void> {
     await Promise.all([
-      this.page.waitForURL(url => !url.pathname.includes('/sign-in'), { waitUntil: 'domcontentloaded' }),
+      this.page.waitForURL(url => !url.pathname.includes('/sign-in'), { timeout: 10000 }),
       this.login(username, password),
     ]);
   }
