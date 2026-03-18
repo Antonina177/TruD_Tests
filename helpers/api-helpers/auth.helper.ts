@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '../../helpers/constants';
+import { API_ENDPOINTS } from '../constants';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

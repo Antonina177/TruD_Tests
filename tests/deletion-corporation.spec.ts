@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { TEST_USERNAME, TEST_PASSWORD, URLS } from '../helpers/constants';
 import { generateCorporationName } from '../helpers/randomData';
-import { loginAPI } from './api-helpers/auth.helper';
-import { createCorporationAPI } from './api-helpers/corporation.helper';
+import { loginAPI } from '../helpers/api-helpers/auth.helper';
+import { createCorporationAPI } from '../helpers/api-helpers/corporation.helper';
 import { LoginPage } from '../pages/login.page';
 import { CorporationsPage } from '../pages/corporations.page';
 
