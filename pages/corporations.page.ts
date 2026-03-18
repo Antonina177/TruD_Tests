@@ -52,6 +52,33 @@ export class CorporationsPage {
     return this.modal().getByRole('button', { name: /^create$/i });
   }
 
+  // ── Delete Corporation (detail page) ──────────────────────────────────────
+
+  /** Table row in the corporations list that contains the given name */
+  corporationTableRow(name: string): Locator {
+    return this.page.locator('table tbody tr').filter({ hasText: name });
+  }
+
+  /** "Delete corporation" button on the corporation detail page */
+  deleteCorporationButton(): Locator {
+    return this.page.getByRole('button', { name: /delete corporation/i });
+  }
+
+  /** Delete confirmation modal overlay */
+  deleteConfirmationModal(): Locator {
+    return this.page.locator('div.fixed.inset-0.bg-black.bg-opacity-50');
+  }
+
+  /** Red "Delete Corporation" confirm button inside the delete modal */
+  confirmDeleteButton(): Locator {
+    return this.deleteConfirmationModal().getByRole('button', { name: /delete corporation/i });
+  }
+
+  /** Success toast shown after deletion: "Corporation '<name>' deleted successfully" */
+  deletionSuccessMessage(name: string): Locator {
+    return this.page.getByText(new RegExp(`Corporation '${name}' deleted successfully`, 'i'));
+  }
+
   // ── Assertions helpers ─────────────────────────────────────────────────────
 
   /**
@@ -91,5 +118,29 @@ export class CorporationsPage {
 
   async submitCreateCorporation(): Promise<void> {
     await this.createButton().click();
+  }
+
+  /** Clicks the table row matching the given corporation name */
+  async clickCorporationRow(name: string): Promise<void> {
+    const row = this.corporationTableRow(name);
+    await row.waitFor({ state: 'visible', timeout: 10_000 });
+    await row.click();
+  }
+
+  /** Clicks the "Delete corporation" button on the detail page */
+  async clickDeleteCorporationButton(): Promise<void> {
+    await this.deleteCorporationButton().waitFor({ state: 'visible', timeout: 10_000 });
+    await this.deleteCorporationButton().click();
+  }
+
+  /** Waits for the delete confirmation modal to appear */
+  async waitForDeleteModal(): Promise<void> {
+    await this.deleteConfirmationModal().waitFor({ state: 'visible', timeout: 5_000 });
+  }
+
+  /** Clicks the red confirm delete button inside the modal */
+  async confirmDeletion(): Promise<void> {
+    await this.confirmDeleteButton().waitFor({ state: 'visible', timeout: 5_000 });
+    await this.confirmDeleteButton().click();
   }
 }

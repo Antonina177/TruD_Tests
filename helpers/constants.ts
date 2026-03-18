@@ -12,6 +12,15 @@ export const TEST_PASSWORD = 'Passw0rd!';
 
 export const BASE_URL = 'https://newadmin.dev.trudiagnostic.com';
 
+// ── API ───────────────────────────────────────────────────────────────────────
+
+export const API_BASE_URL = 'https://ops.dev.trudiagnostic.com';
+
+export const API_ENDPOINTS = {
+  auth:         `${API_BASE_URL}/portalApi/Auth`,
+  corporations: `${API_BASE_URL}/api/admin/corporations`,
+} as const;
+
 // ── Page URLs ─────────────────────────────────────────────────────────────────
 
 export const URLS = {
