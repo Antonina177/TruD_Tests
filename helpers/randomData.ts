@@ -70,3 +70,13 @@ export function randomUserData(): { firstName: string; lastName: string; email: 
     dateOfBirth: randomDateOfBirth(),
   };
 }
+
+/**
+ * Generates a unique corporation name for use in E2E tests.
+ * Format: Automation_<timestamp><random2digits>
+ * Example: Automation_174312345612_42
+ */
+export function generateCorporationName(): string {
+  const randomSuffix = Math.floor(Math.random() * 90 + 10); // 10–99
+  return `Automation_${Date.now()}_${randomSuffix}`;
+}

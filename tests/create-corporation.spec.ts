@@ -1,65 +1,8 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
-
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const TEST_USERNAME = 'antonina.horbenko+myadmin@trudiagnostic.com';
-const TEST_PASSWORD = 'Passw0rd!';
-
-const URLS = {
-  adminDashboard: 'https://newadmin.dev.trudiagnostic.com/admin',
-  corporations:   'https://newadmin.dev.trudiagnostic.com/corporations',
-} as const;
-
-// ─── Helper ───────────────────────────────────────────────────────────────────
-
-/**
- * Generates a unique corporation name for each test run.
- * Format: Automation_<timestamp><random2digits>
- * Example: Automation_17431234561242
- */
-function generateCorporationName(): string {
-  const randomSuffix = Math.floor(Math.random() * 90 + 10); // 10–99
-  return `Automation_${Date.now()}${randomSuffix}`;
-}
-
-// ─── Page Object: CorporationsPage ───────────────────────────────────────────
-
-class CorporationsPage {
-  constructor(private readonly page: Page) {}
-
-  // Sidebar "Admin" nav link (3rd <a> in the nav)
-  adminNavLink = () =>
-    this.page.locator('nav a').nth(2);
-
-  // "Corporation Management" card on the Admin dashboard
-  corporationManagementCard = () =>
-    this.page.getByRole('link', { name: /corporation management/i });
-
-  // "New Corporation" button in the toolbar
-  newCorporationButton = () =>
-    this.page.getByRole('button', { name: /new corporation/i });
-
-  // Modal overlay
-  modal = () =>
-    this.page.locator(
-      'div.fixed.inset-0.bg-black.bg-opacity-50.flex.items-center.justify-center.z-50',
-    );
-
-  // "Corporation Name" text input inside the modal
-  corporationNameInput = () =>
-    this.modal().locator('input').first();
-
-  // "Create" submit button inside the modal (blue)
-  createButton = () =>
-    this.modal().getByRole('button', { name: /^create$/i });
-
-  // Generic success toast / confirmation – adjust selector if the app uses a
-  // different element (e.g. a toast library). We look for any visible text that
-  // indicates success, or simply confirm the modal closed without an error banner.
-  errorBanner = () =>
-    this.page.getByRole('alert').filter({ hasText: /error|failed|invalid/i });
-}
+import { CorporationsPage } from '../pages/corporations.page';
+import { generateCorporationName } from '../helpers/randomData';
+import { TEST_USERNAME, TEST_PASSWORD, URLS } from '../helpers/constants';
 
 // ─── Test ─────────────────────────────────────────────────────────────────────
 
@@ -85,19 +28,17 @@ test.describe('Create Corporation E2E Test', () => {
 
     // ── Step 5: Click "Admin" in the sidebar ─────────────────────────────────
     await test.step('Navigate to Admin section via sidebar', async () => {
-      await corporationsPage.adminNavLink().waitFor({ state: 'visible', timeout: 10_000 });
-      await corporationsPage.adminNavLink().click();
+      await corporationsPage.clickAdminNavLink();
     });
 
     // ── Step 6: Verify Admin dashboard URL ───────────────────────────────────
     await test.step('Verify Admin dashboard page', async () => {
-      await expect(page).toHaveURL(URLS.adminDashboard);
+      await expect(page).toHaveURL(URLS.admin);
     });
 
     // ── Step 7: Click "Corporation Management" card ──────────────────────────
     await test.step('Click Corporation Management card', async () => {
-      await corporationsPage.corporationManagementCard().waitFor({ state: 'visible', timeout: 10_000 });
-      await corporationsPage.corporationManagementCard().click();
+      await corporationsPage.clickCorporationManagementCard();
     });
 
     // ── Step 8: Verify corporations list URL ─────────────────────────────────
@@ -105,31 +46,27 @@ test.describe('Create Corporation E2E Test', () => {
       await expect(page).toHaveURL(URLS.corporations);
     });
 
-    // ── Step 9: Click "New Corporation" button ───────────────────────────────
+    // ── Step 9: Open "New Corporation" modal ─────────────────────────────────
     await test.step('Open New Corporation modal', async () => {
-      await corporationsPage.newCorporationButton().waitFor({ state: 'visible', timeout: 10_000 });
-      await corporationsPage.newCorporationButton().click();
-
-      // Assert the modal is visible before interacting
+      await corporationsPage.openNewCorporationModal();
       await expect(corporationsPage.modal()).toBeVisible({ timeout: 5_000 });
     });
 
     // ── Step 10: Fill Corporation Name ───────────────────────────────────────
     await test.step(`Fill Corporation Name with "${corporationName}"`, async () => {
-      await corporationsPage.corporationNameInput().waitFor({ state: 'visible', timeout: 5_000 });
-      await corporationsPage.corporationNameInput().fill(corporationName);
+      await corporationsPage.fillCorporationName(corporationName);
       await expect(corporationsPage.corporationNameInput()).toHaveValue(corporationName);
     });
 
     // ── Step 11: Click "Create" button ───────────────────────────────────────
     await test.step('Submit: click Create button', async () => {
       await expect(corporationsPage.createButton()).toBeEnabled();
-      await corporationsPage.createButton().click();
+      await corporationsPage.submitCreateCorporation();
     });
 
     // ── Expected Results ─────────────────────────────────────────────────────
     await test.step('Verify corporation was created successfully', async () => {
-      // The modal should close after successful creation
+      // Modal closes after successful creation
       await expect(corporationsPage.modal()).toBeHidden({ timeout: 10_000 });
 
       // User must remain on the corporations page
@@ -139,9 +76,7 @@ test.describe('Create Corporation E2E Test', () => {
       await expect(corporationsPage.errorBanner()).toHaveCount(0);
 
       // The newly created corporation should appear in the list
-      await expect(
-        page.getByText(corporationName, { exact: false }),
-      ).toBeVisible({ timeout: 10_000 });
+      await expect(corporationsPage.corporationRow(corporationName)).toBeVisible({ timeout: 10_000 });
     });
   });
 });

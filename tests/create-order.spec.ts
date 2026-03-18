@@ -3,13 +3,12 @@ import { LoginPage } from '../pages/login.page';
 import { SidebarComponent } from '../components/sidebar.component';
 import { OrdersPage } from '../pages/orders.page';
 import { CreateOrderModal } from '../pages/createOrder.modal';
+import { TEST_USERNAME, TEST_PASSWORD, URLS } from '../helpers/constants';
 
-const TEST_USERNAME = 'antonina.horbenko+myadmin@trudiagnostic.com';
-const TEST_PASSWORD = 'Passw0rd!';
+// Test-specific constants
 const CUSTOMER_SEARCH = 'Antonina_Migration20';
 const PRODUCT_NAME = 'TruHealth (TruHealth)';
 const ORDER_NOTES = 'Automation';
-const ORDERS_LIST_URL = 'https://newadmin.dev.trudiagnostic.com/orders/list';
 
 test.describe('Create Order E2E', () => {
   test('complete create order flow', async ({ page }) => {
@@ -67,7 +66,7 @@ test.describe('Create Order E2E', () => {
     await createOrderModal.modal().waitFor({ state: 'hidden', timeout: 15000 }).catch(() => {});
 
     // Step 13: Navigate to orders list page
-    await page.goto(ORDERS_LIST_URL);
+    await page.goto(URLS.ordersList);
     await page.waitForLoadState('domcontentloaded');
 
     // Step 14: Assert that the orders list is visible

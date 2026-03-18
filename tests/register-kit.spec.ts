@@ -1,9 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/login.page';
 import { randomUserData } from '../helpers/randomData';
-
-const TEST_USERNAME = 'antonina.horbenko+myadmin@trudiagnostic.com';
-const TEST_PASSWORD = 'Passw0rd!';
+import { TEST_USERNAME, TEST_PASSWORD } from '../helpers/constants';
 
 // Modal scope - register kit modal overlay
 const modalSelector = 'div.fixed.inset-0.bg-black.bg-opacity-50';

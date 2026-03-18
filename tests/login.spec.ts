@@ -1,9 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/loginPage';
-
-// Test credentials - in production, use environment variables
-const TEST_USERNAME = 'antonina.horbenko+myadmin@trudiagnostic.com';
-const TEST_PASSWORD = 'Passw0rd!';
+import { LoginPage } from '../pages/login.page';
+import { TEST_USERNAME, TEST_PASSWORD } from '../helpers/constants';
 
 test.describe('Login', () => {
   let loginPage: LoginPage;

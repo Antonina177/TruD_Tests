@@ -8,6 +8,10 @@ export class LoginPage {
   readonly passwordInput = () => this.page.locator('#password');
   readonly signInButton = () => this.page.getByRole('button', { name: 'Sign in' });
 
+  // Error message shown when login fails (wrong credentials or no admin permission)
+  readonly errorMessage = () =>
+    this.page.getByText("You don't have permission to access the admin portal");
+
   constructor(page: Page) {
     this.page = page;
   }
