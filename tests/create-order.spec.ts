@@ -6,7 +6,8 @@ import { CreateOrderModal } from '../pages/createOrder.modal';
 import { TEST_USERNAME, TEST_PASSWORD, URLS, CUSTOMER_SEARCH } from '../helpers/constants';
 
 // Test-specific constants
-const PRODUCT_NAME = 'TruHealth (TruHealth)';
+const PRODUCT_NAME = 'Combination Kit: TruAge + TruHealth (TruHealthAgeCombo)';
+const ORDER_QUANTITY = 5;
 const ORDER_NOTES = 'Automation';
 
 test.describe('Create Order E2E', () => {
@@ -50,9 +51,15 @@ test.describe('Create Order E2E', () => {
     // Step 8: Select the customer from the dropdown results
     await createOrderModal.selectCustomerFromDropdown(CUSTOMER_SEARCH);
 
-    // Step 9 & 10: In the "Product Information" section, select "TruHealth (TruHealth)" from the product dropdown
+    // Step 8a: Click the "Ship" button to proceed to product selection
+    await createOrderModal.clickShipButton();
+
+    // Step 9 & 10: Select "Combination Kit: TruAge + TruHealth" from the product dropdown
     await createOrderModal.productSelect().waitFor({ state: 'visible', timeout: 5000 });
     await createOrderModal.selectProduct(PRODUCT_NAME);
+
+    // Step 10a: Fill in the quantity field
+    await createOrderModal.fillQuantity(ORDER_QUANTITY);
 
     // Step 11: Enter "Automation" into the Notes textarea
     await createOrderModal.notesTextarea().waitFor({ state: 'visible', timeout: 5000 });
