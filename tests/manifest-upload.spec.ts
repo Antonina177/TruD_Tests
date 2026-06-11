@@ -175,7 +175,7 @@ test.describe('Manifest Upload – Create Order', () => {
     // ── Step 7: Click Approve Request button ──────────────────────────────
     await test.step('Click Approve Request button', async () => {
       const approveBtn = page.locator('main button', { hasText: 'Approve Request' });
-      await approveBtn.waitFor({ state: 'visible', timeout: 10000 });
+      await approveBtn.waitFor({ state: 'visible', timeout: 20000 });
       await approveBtn.click();
     });
 

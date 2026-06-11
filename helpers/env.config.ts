@@ -56,7 +56,7 @@ const configs: Record<string, EnvConfig> = {
     apiKey:           'f9059431-b8d8-407c-a9d9-28e1792b4271',
     username:         'antonina.horbenko+myadminstage@trudiagnostic.com',
     password:         'Passw0rd!',
-    customerSearch:   'Antonia_Batch_Hold',
+    customerSearch:   'Collection2',
     portalBaseURL:    'https://portal.staging.trudiagnostic.com',
     portalUsername:   'antonina.horbenko+colk2@trudiagnostic.com',
     portalPassword:   'Passw0rd!',
