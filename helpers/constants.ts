@@ -46,6 +46,12 @@ export const API_ENDPOINTS = {
   createOrder:      `${ORDER_API_BASE_URL}/api/orders`,
 };
 
+// ── Portal (manifest upload) ──────────────────────────────────────────────────
+
+export const PORTAL_BASE_URL     = env.portalBaseURL;
+export const PORTAL_USERNAME     = env.portalUsername;
+export const PORTAL_PASSWORD     = env.portalPassword;
+
 // ── Page URLs ─────────────────────────────────────────────────────────────────
 
 export const URLS = {

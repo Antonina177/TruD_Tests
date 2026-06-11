@@ -90,3 +90,40 @@ export function generateExternalId(): string {
   const { randomUUID } = require('crypto') as { randomUUID: () => string };
   return randomUUID();
 }
+
+/**
+ * Generates a random 16-character barcode using uppercase letters and digits.
+ * Example: "A3BF9KXZ12TY6WQR"
+ */
+export function generateBarcode(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let result = '';
+  for (let i = 0; i < 16; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+/**
+ * Generates a random patient ID.
+ * Format: PAT-<timestamp last 6 digits><random 3 digits>
+ * Example: "PAT-345678042"
+ */
+export function generatePatientId(): string {
+  const ts = Date.now().toString().slice(-6);
+  const rand = Math.floor(Math.random() * 900 + 100).toString();
+  return `PAT-${ts}${rand}`;
+}
+
+/**
+ * Returns today's date as digits only in DD MM YYYY order (no separators).
+ * Used with pressSequentially on date inputs — browser auto-advances segments.
+ * Example: "11062026" for 11.06.2026
+ */
+export function todayFormatted(): string {
+  const now = new Date();
+  const dd = now.getDate().toString().padStart(2, '0');
+  const mm = (now.getMonth() + 1).toString().padStart(2, '0');
+  const yyyy = now.getFullYear().toString();
+  return `${dd}${mm}${yyyy}`;
+}

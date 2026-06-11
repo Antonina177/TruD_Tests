@@ -27,27 +27,39 @@ export interface EnvConfig {
   password: string;
   /** Customer name used in order-related tests */
   customerSearch: string;
+  /** Patient/manifest portal base URL (portal.*.trudiagnostic.com) */
+  portalBaseURL: string;
+  /** Patient/manifest portal username */
+  portalUsername: string;
+  /** Patient/manifest portal password */
+  portalPassword: string;
 }
 
 const configs: Record<string, EnvConfig> = {
   development: {
-    baseURL:         'https://newadmin.dev.trudiagnostic.com',
-    apiBaseURL:      'https://ops.dev.trudiagnostic.com',
-    orderApiBaseURL: 'https://api.dev.trudiagnostic.com',
-    apiKey:          '3debb027-6bca-4699-a730-12a31c8c505e',
-    username:        'antonina.horbenko+myadmin@trudiagnostic.com',
-    password:        'Passw0rd!',
-    customerSearch:  'Antonina_Migration20',
+    baseURL:          'https://newadmin.dev.trudiagnostic.com',
+    apiBaseURL:       'https://ops.dev.trudiagnostic.com',
+    orderApiBaseURL:  'https://api.dev.trudiagnostic.com',
+    apiKey:           '3debb027-6bca-4699-a730-12a31c8c505e',
+    username:         'antonina.horbenko+myadmin@trudiagnostic.com',
+    password:         'Passw0rd!',
+    customerSearch:   'Antonina_Migration20',
+    portalBaseURL:    'https://portal.dev.trudiagnostic.com',
+    portalUsername:   'antonina.horbenko+mi20@trudiagnostic.com',
+    portalPassword:   'Passw0rd!',
   },
 
   staging: {
-    baseURL:         'https://newadmin.staging.trudiagnostic.com',
-    apiBaseURL:      'https://ops.staging.trudiagnostic.com',
-    orderApiBaseURL: 'https://api.staging.trudiagnostic.com',
-    apiKey:          'f9059431-b8d8-407c-a9d9-28e1792b4271',
-    username:        'antonina.horbenko+myadminstage@trudiagnostic.com',
-    password:        'Passw0rd!',
-    customerSearch:  'Antonia_Batch_Hold',
+    baseURL:          'https://newadmin.staging.trudiagnostic.com',
+    apiBaseURL:       'https://ops.staging.trudiagnostic.com',
+    orderApiBaseURL:  'https://api.staging.trudiagnostic.com',
+    apiKey:           'f9059431-b8d8-407c-a9d9-28e1792b4271',
+    username:         'antonina.horbenko+myadminstage@trudiagnostic.com',
+    password:         'Passw0rd!',
+    customerSearch:   'Antonia_Batch_Hold',
+    portalBaseURL:    'https://portal.staging.trudiagnostic.com',
+    portalUsername:   'antonina.horbenko+colk2@trudiagnostic.com',
+    portalPassword:   'Passw0rd!',
   },
 };
 
